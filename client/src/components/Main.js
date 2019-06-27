@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import { checkHealth, sendMessage } from '../actions';
 
 class Main extends Component {
   state = {
     handle: '',
+    enteredName: '',
     msg: '',
   };
 
@@ -22,44 +23,73 @@ class Main extends Component {
     });
   };
 
+  acceptName = () => {
+    this.setState({
+      handle: this.state.enteredName,
+    });
+  };
+
   render() {
-    const { messages } = this.props;
-    const { handle, msg } = this.state;
-    return (
-      <div className="container">
-        <div className="row">
-          <form onSubmit={this.sendForm}>
-            <input
-              type="text"
-              value={handle}
-              onChange={e => {
-                this.setState({ handle: e.target.value });
-              }}
-            />
-            <input
-              type="text"
-              value={msg}
-              onChange={e => {
-                this.setState({
-                  msg: e.target.value,
-                });
-              }}
-            />
-            <input className="btn" type="submit" />
+    const { enteredName, handle, msg } = this.state;
+
+    if (handle === '') {
+      return (
+        <div className="container">
+          <form
+            onSubmit={() => {
+              this.acceptName();
+            }}
+          >
+            <div className="row">
+              <input
+                className="col s8"
+                placeholder="Your Name"
+                value={enteredName}
+                onChange={e => {
+                  this.setState({
+                    enteredName: e.target.value,
+                  });
+                }}
+              />
+              <button className="btn">Register</button>
+            </div>
           </form>
         </div>
-        <div className="row">
-          <ul className="collection">
-            {messages.map((data, i) => {
-              return (
-                <li className="collection-item" key={i}>
-                  {data.handle} -- {data.msg}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+      );
+    }
+
+    const { messages } = this.props;
+    return (
+      <ul className="pages">
+        <li className="chat page">
+          <div className="chatArea">
+            <ul className="messages">
+              {messages.map((data, i) => {
+                return (
+                  <li className="collection-item" key={i}>
+                    {data.handle} -- {data.msg}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <form onSubmit={this.sendForm}>
+            <input
+              value={msg}
+              onChange={e => this.setState({ msg: e.target.value })}
+              className="inputMessage"
+              placeholder="Type here..."
+            />
+            <input type="submit" hidden />
+          </form>
+        </li>
+        {/* <li className="login page">
+          <div className="form">
+            <h3 className="title">What's your nickname?</h3>
+            <input className="usernameInput" type="text" maxlength="14" />
+          </div>
+        </li> */}
+      </ul>
     );
   }
 }
@@ -72,4 +102,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { checkHealth, sendMessage })(Main);
+export default connect(
+  mapStateToProps,
+  { checkHealth, sendMessage }
+)(Main);

@@ -1,7 +1,22 @@
-@import './fonts';
+@import 'materialize-css/materialize.scss';
+@import 'demo';
+@import 'fonts';
+@import 'custom';
 
 body {
   margin: 0;
   padding: 0;
   font-family: $roboto-font-stack;
+  // background-color: $background-color;
+}
+
+.container {
+  max-width: 640px;
+  background-color: white;
+  padding: 20px;
+}
+
+.chatline {
+  position: absolute;
+  bottom: 0;
 }

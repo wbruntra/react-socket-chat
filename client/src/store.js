@@ -6,17 +6,17 @@ import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 import reducers from './reducers';
 
-const socketUrl = process.env.REACT_APP_SOCKET_URL
+const socketUrl = process.env.REACT_APP_SOCKET_URL;
 
 let socket = io(socketUrl);
-let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
+let socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
 
 const store = createStore(
   combineReducers({ ...reducers }),
-  composeWithDevTools(applyMiddleware(socketIoMiddleware, reduxThunk)),
+  composeWithDevTools(applyMiddleware(socketIoMiddleware, reduxThunk))
 );
 
-store.subscribe(()=>{
+store.subscribe(() => {
   console.log('new client state', store.getState());
 });
 
