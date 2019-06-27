@@ -36,7 +36,8 @@ class Main extends Component {
       return (
         <div className="container">
           <form
-            onSubmit={() => {
+            onSubmit={e => {
+              e.preventDefault();
               this.acceptName();
             }}
           >

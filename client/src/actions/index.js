@@ -3,7 +3,7 @@ import axios from 'axios';
 export const HEALTH_CHECK = 'HEALTH_CHECK';
 export const SERVER_HELLO = 'server/hello';
 
-const API_URL = '/chat/api';
+const API_URL = '/api';
 
 export const checkHealth = () => async dispatch => {
   const serverResponse = await axios.get(API_URL);
